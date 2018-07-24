@@ -9,11 +9,33 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+        
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"> 
+        
         <style>
-            .grille {
-                display : flex;
-                flex-direction: column
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+               
+                background-color: whitesmoke;
+                
+            }
+            header {
+                font-family: 'Indie Flower', cursive;
+                width: 100%;
+                text-align: center;
+            }
+            
+            header h1 {
+                font-size: 5em;
+            }
+            
+            #grille {
+                margin-bottom: 15px;
+                 border : 10px solid goldenrod;
+                 padding: 15px;
             }
 
             .ligneGrille {
@@ -62,11 +84,14 @@ and open the template in the editor.
 
     </head>
     <body>
-
+        
+        <header>
+            <h1>Memory Quest</h1>
+        </header>
+        
         <main id="grille">
 
         </main>
-
 
         <script>
 
@@ -83,8 +108,6 @@ and open the template in the editor.
 
                 return coteGrille;
             }
-
-
 
             function retourneCarte(carte) {
                 console.log('retourneCarte');
