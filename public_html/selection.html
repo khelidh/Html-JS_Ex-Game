@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/css.css" rel="stylesheet" type="text/css"/>
+        <style>
+            #joueurs, #ingredients {
+                display: flex;
+
+                background : whitesmoke;
+            }
+            .joueur, .ingredient {
+                min-width: 150px;
+                min-height: 200px;
+                background-color : #FFD800;
+                border: 2px solid #003366;
+                box-shadow: 5px 5px 5px #755da3;
+                border-radius: 5px;
+                margin : 5px;
+            }
+        </style>
+
+    </head>
+    <body>
+
+        <div id="joueurs">
+            <div class="joueur" id="permierJoueur"></div>
+            <div class="joueur"></div>
+        </div>
+
+        <div id="ingredients">
+            <div class="ingredient" onclick="changerClasse(this);"></div>
+            <div class="ingredient" onclick="changerClasse(this);"></div>
+            <div class="ingredient" onclick="changerClasse(this);"></div>
+            <div class="ingredient" onclick="changerClasse(this);"></div>
+        </div>
+        <script>
+            function changerClasse(elem) {
+                console.log('ok');
+                //elem.setAttribute('style', 'background-color : green');
+                //elem.classList.toggle('s1');
+
+//                if (elem.classList.contains('s1')) {
+//                    elem.classList.remove('s1');
+//                } else {
+//                    elem.classList.add('s1');
+//                }
+
+                if (elem.getAttribute('style') === 'background-color : green')
+                    elem.setAttribute('style', 'background-color : yellow');
+                else
+                    elem.setAttribute('style', 'background-color : green');
+//                
+//                if (elem.getAttribute('class') === 'ingredient s1')
+//                    elem.setAttribute('class', 'ingredient s2');
+//                else
+//                    elem.setAttribute('class', 'ingredient s1');
+
+            }
+
+
+
+
+        </script>
+    </body>
+</html>

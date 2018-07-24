@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+        <div>TODO write content</div>
+
+
+        <script type="text/javascript" >
+            var filtre = function (param) {
+
+                if (param === 'a' || param === 'e' || param === 'i' || param === 'o' || param === 'u' || param === 'y') {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            function filtreNombre(param) {
+                x = 2;
+                while (x < param) {
+                    if (param % x == 0) {
+                        return false;
+                    } else {
+                        x++;
+                    }
+                }
+                return true;
+            }
+            ;
+
+            var exercice = function () {
+
+                var tab = new Array(50);
+                tab.fill('coucou');
+
+                tab.push('hello');
+                tab.push('coucou');
+
+                console.log(tab);
+
+                tab.indexOf('coucou');
+
+                console.log(tab.indexOf('coucou'));
+                console.log(tab.indexOf('hello'));
+
+                return tab;
+            }
+
+            var motus = function () {
+
+
+                var CST_NOMBRE_ESSAI = 6;
+                var tableauDeMots = ['salamandre', 'echine', 'melancolie', 'misericorde', 'ukulele'];
+
+
+                var indice = Math.floor(Math.random() * tableauDeMots.length);
+                var mot = tableauDeMots[indice];
+
+                var motTrouve = mot[0] + '*'.repeat(mot.length - 1);
+                motTrouve = motTrouve.split('');
+                // Fin INIT
+
+//                var motTrouve = new Array(mot.length).fill("*");
+//                motTrouve[0] = mot[0];
+
+                for (var i = 0; i < CST_NOMBRE_ESSAI; i++) {
+                    var motPropose = prompt(motTrouve.join('') + " - Proposition ?");
+                    motPropose = motPropose.toLowerCase();
+
+                    if (motPropose === mot){
+                        alert(motPropose + " - Bien Joué ! C'est gagné");
+                        return true;
+                    }
+
+                    for (var indice in motPropose) {
+                        if (mot[indice] === motPropose[indice]) {
+                            if (motTrouve[indice] === '*') {
+                                motTrouve[indice] = mot[indice];
+                            }
+                        }
+                    }
+                }
+                alert(motTrouve.join('') + "Dommage ! C'est perdu");
+            }
+
+        </script>
+    </body>
+</html>

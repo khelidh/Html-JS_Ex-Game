@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            .grille {
+                display : flex;
+                flex-direction: column
+            }
+
+            .ligneGrille {
+                display : flex;
+            }
+
+            .carte {
+                min-width: 100px;
+                min-height: 150px;
+                background-color : #FFD800;
+                border: 2px solid #003366;
+                box-shadow: 5px 5px 5px #755da3;
+                border-radius: 5px;
+                margin : 5px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 4em;
+            }
+            
+            .carte:hover {
+                background-color : #ffbb00;
+            }
+
+            .retournee {
+                background-color: red;
+                animation-name: anime;
+                animation-duration: 1s;
+                transform : rotateY(360deg);
+                transition: transform 0.5s;
+            }
+
+            .trouve {
+                background-color: green;
+            }
+          
+            @keyframes anime {
+                0% {background-color: #FFD800;}
+                50% {background-color: orange;}
+                100% {background-color: red;}
+            }
+
+        </style>
+
+    </head>
+    <body>
+
+        <main id="grille">
+
+        </main>
+
+
+        <script>
+
+            var applaudissements = new Audio('sound/applaudissements.wav');
+            var retournement = new Audio('sound/retournement.wav');
+            var pairs = 0;
+            var count = 0;
+
+            function recuperationData() {
+                var coteGrille;
+                do {
+                    coteGrille = prompt("Nombre de case par côté svp");
+                } while (coteGrille % 2 !== 0 || coteGrille < 0);
+
+                return coteGrille;
+            }
+
+
+
+            function retourneCarte(carte) {
+                console.log('retourneCarte');
+                if (carte.classList.contains('retournee')) {
+                    carte.classList.remove('retournee');
+                    carte.innerHTML = '';
+                    retournement.play();
+                } else {
+                    count++;
+                    carte.classList.add('retournee');
+                    carte.innerHTML = carte.getAttribute('valeur');
+                    retournement.play();
+                }
+            }
+
+            var selection1 = null;
+            var selection2 = null;
+
+            function selectionClic(carte) {
+                if (selection1 == null) {
+                    selection1 = carte;
+                    retourneCarte(selection1);
+                } else if (!(selection1 == carte && selection2 == null)) {
+
+                    if (selection2 == null) {
+                        selection2 = carte;
+                        retourneCarte(selection2);
+                    } else {
+                        if (selection1.getAttribute('valeur') === selection2.getAttribute('valeur')) {
+                            // selection1.style/visivility = 'hidden';
+                            selection1.removeAttribute('onclick');
+                            selection2.removeAttribute('onclick');
+
+                            selection1.classList.add('trouve');
+                            selection2.classList.add('trouve');
+
+                            selection1 = null;
+                            selection2 = null;
+
+                            pairs--;
+
+                            if (pairs === 0) {
+                                applaudissements.play();
+                                alert('Bien joué :) en ' + count/2 + " essais !");
+                                return;
+                            }
+
+                        } else {
+                            retournement.play();
+                            retourneCarte(selection1);
+                            retourneCarte(selection2);
+                            selection1 = null;
+                            selection2 = null;
+                        }
+                    }
+                }
+            }
+
+            function initTableauGrille(n) {
+
+                var tableau = [];
+                pairs = (n * n) / 2;
+
+                for (var i = 0; i < pairs; i++) {
+                    var carte = '<div class="carte" valeur="' + i + '" onclick="selectionClic(this)"></div>';
+                    var carte2 = '<div class="carte" valeur="' + i + '" onclick="selectionClic(this)"></div>';
+
+                    tableau.push(carte);
+                    tableau.push(carte2);
+                }
+                melangerTableauGrille(tableau);
+
+                return tableau;
+            }
+
+            function melangerTableauGrille(tableau) {
+                for (var i = 0; i < tableau.length * 2; i++) {
+                    var indice = Math.floor(Math.random() * tableau.length);
+                    var indice2 = Math.floor(Math.random() * tableau.length);
+
+                    var temp = tableau[indice];
+                    tableau[indice] = tableau[indice2];
+                    tableau[indice2] = temp;
+                }
+                return tableau;
+            }
+
+            function initGrille(tableau) {
+
+                var grille = document.getElementById('grille');
+                var cote = Math.sqrt(tableau.length);
+
+                var htmlGenere = '';
+
+                for (var i = 0; i < cote; i++) {
+                    var ligne = '<div class="ligneGrille">';
+
+                    for (var j = (i * cote); j < (i * cote) + cote; j++) {
+                        ligne += tableau[j];
+                    }
+                    htmlGenere += ligne + '</div>';
+                }
+                grille.innerHTML = htmlGenere;
+            }
+
+            initGrille(initTableauGrille(recuperationData()));
+
+        </script>
+    </body>
+</html>
