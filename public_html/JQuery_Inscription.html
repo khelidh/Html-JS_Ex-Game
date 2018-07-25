@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>JQuery TP Inscription</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <header></header>
+
+        <main>
+            <label>Pseudonyme</label>
+            <input type="text" placeholder="pseudonyme" name="pseudonyme"/>
+
+            <label>Mot de passe</label>
+            <input type="text" placeholder="mot de passe" name="mdp"/>
+
+            <label>Confirmer votre mot de passe</label>
+            <input type="text" placeholder="confirmation du mot de passe" name="mdp2"/>
+
+            <label>Adresse e-mail</label>
+            <input type="text" placeholder="mail" name="mail"/>
+
+            <button>Valider</button>
+        </main>
+        
+        <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+        <script>
+
+            function check() {
+                var expRegMdp = /[0-9a-zA-Z]{3,8}/;
+                var expRegMail = /[a-zA-Z0-9_]@[a-z].[a-z]/;
+                
+                var regexMailWeb = /^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/ ;
+                var reg = /[a-z]+@[a-z]+\.[a-z]+/ ;
+                
+                var pseudo = $('[name = "pseudonyme"]').val();
+                var mdp = $('[name = "mdp"]').val();
+                var mdp2 = $('[name = "mdp2"]').val();
+                var mail = $('[name = "mail"]').val();
+
+                if ((pseudo.length > 3) && (mdp === mdp2) && mdp.match(expRegMdp) && mail.match(regexMailWeb)){
+                    alert('Inscription valide');
+                } else {
+                    alert('Inscription invalide');
+                }
+            }
+            
+            $('button').click( check );
+
+
+        </script>
+
+    </body>
+</html>

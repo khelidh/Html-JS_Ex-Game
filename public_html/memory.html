@@ -9,33 +9,42 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet"> 
-        
+
         <style>
             body {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-               
-                background-color: whitesmoke;
+                background : url('image/fond3.jpeg') ;
                 
+                /*background-color: whitesmoke;*/
+
             }
             header {
                 font-family: 'Indie Flower', cursive;
                 width: 100%;
                 text-align: center;
             }
-            
+
             header h1 {
                 font-size: 5em;
+                text-shadow: 4px 4px 2px goldenrod, -3px 3px 2px goldenrod ;
             }
             
+            header p {
+                color: lightblue;
+                font-size: 2em;
+                text-shadow: 2px 2px 2px black, -2px 2px 2px black ;
+            }
+
             #grille {
                 margin-bottom: 15px;
-                 border : 10px solid goldenrod;
-                 padding: 15px;
+                border : 10px solid #0F4F7E;
+                padding: 25px;
+                border-radius: 5px;
             }
 
             .ligneGrille {
@@ -45,9 +54,9 @@ and open the template in the editor.
             .carte {
                 min-width: 100px;
                 min-height: 150px;
-                background-color : #FFD800;
+                background-color : #EFDC05;
                 border: 2px solid #003366;
-                box-shadow: 5px 5px 5px #755da3;
+                box-shadow: 5px 5px 5px lightblue;
                 border-radius: 5px;
                 margin : 5px;
 
@@ -57,13 +66,14 @@ and open the template in the editor.
 
                 font-size: 4em;
             }
-            
+
             .carte:hover {
-                background-color : #ffbb00;
+                background-color : #E3E36A;
+                box-shadow: 5px 5px 5px lightblue, -5px -5px 5px lightblue;
             }
 
             .retournee {
-                background-color: red;
+                background-color: #E53A40;
                 animation-name: anime;
                 animation-duration: 1s;
                 transform : rotateY(360deg);
@@ -71,29 +81,34 @@ and open the template in the editor.
             }
 
             .trouve {
-                background-color: green;
+                background-color: #2EC4B6;
+                box-shadow: none;
             }
-          
+            .trouve:hover{
+                background-color: green;
+                box-shadow: none;
+            }
+
             @keyframes anime {
                 0% {background-color: #FFD800;}
                 50% {background-color: orange;}
                 100% {background-color: red;}
             }
-
         </style>
 
     </head>
     <body>
-        
+
         <header>
             <h1>Memory Quest</h1>
+            <p id="compteur">- Compteur : 0 -</p>
         </header>
-        
-        <main id="grille">
 
-        </main>
+        <main id="grille"></main>
 
         <script>
+            var selection1 = null;
+            var selection2 = null;
 
             var applaudissements = new Audio('sound/applaudissements.wav');
             var retournement = new Audio('sound/retournement.wav');
@@ -104,13 +119,13 @@ and open the template in the editor.
                 var coteGrille;
                 do {
                     coteGrille = prompt("Nombre de case par côté svp");
-                } while (coteGrille % 2 !== 0 || coteGrille < 0);
+                } while (coteGrille % 2 !== 0 || coteGrille < 2);
 
                 return coteGrille;
             }
 
             function retourneCarte(carte) {
-                console.log('retourneCarte');
+
                 if (carte.classList.contains('retournee')) {
                     carte.classList.remove('retournee');
                     carte.innerHTML = '';
@@ -120,11 +135,20 @@ and open the template in the editor.
                     carte.classList.add('retournee');
                     carte.innerHTML = carte.getAttribute('valeur');
                     retournement.play();
+                    compteur();
                 }
             }
 
-            var selection1 = null;
-            var selection2 = null;
+            function compteur() {
+                var compte = document.getElementById('compteur');
+
+                if (count % 2 === 0) {
+                    compte.innerHTML = '- Coups : ' + count /2 + ' -' ;
+
+                }
+            }
+
+
 
             function selectionClic(carte) {
                 if (selection1 == null) {
@@ -151,7 +175,8 @@ and open the template in the editor.
 
                             if (pairs === 0) {
                                 applaudissements.play();
-                                alert('Bien joué :) en ' + count/2 + " essais !");
+                                alert('Bien joué :) en ' + count / 2 + " coups !");
+                                finPartie();
                                 return;
                             }
 
@@ -211,6 +236,15 @@ and open the template in the editor.
                     htmlGenere += ligne + '</div>';
                 }
                 grille.innerHTML = htmlGenere;
+            }
+            
+            function finPartie(){
+                
+                var reponse = confirm("Qu'est-ce ça fait ? On se remet ça ?! ;)");
+                if (reponse){
+                    initGrille(initTableauGrille(recuperationData()));
+                }
+                
             }
 
             initGrille(initTableauGrille(recuperationData()));
