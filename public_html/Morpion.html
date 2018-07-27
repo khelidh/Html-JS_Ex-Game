@@ -87,30 +87,45 @@ and open the template in the editor.
         <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
         <script>
             var joueur1 = 'joueur O', joueur2 = 'joueur X';
+            var tour = 0;
+            
+            init();
+            
+            function initJoueurs(j1, j2){
+                joueur1 = j1;
+                joueur2 = j2;
+            }
 
-//            joueur1 = prompt('Joueur 1 ?');
-//            joueur2 = prompt('Joueur 2 ?');
+            function init(){
+                tour = 0;
+                
+                $('.ligne div:even').each(function (indice, element) {
+                    $(element).css('background-color', 'green');
+                });
 
-            $('p:first').html('O  -  ' + joueur1);
-            $('p:last').html('X  -  ' + joueur2);
+                $('.ligne div:odd').each(function (indice, element) {
+                    $(element).css('background-color', 'blue');
+                });
 
-            $('p:first').addClass('aLaMain');
-            $('p:last').removeClass('aLaMain');
+                $('p:first').html('O  -  ' + joueur1);
+                $('p:last').html('X  -  ' + joueur2);
 
+                $('p:first').addClass('aLaMain');
+                $('p:last').removeClass('aLaMain');
 
-            $('.ligne div').attr('valeur', 'a');
-
-            $('.ligne div:even').each(function (indice, element) {
-                $(element).css('background-color', 'green');
-            });
-
-            $('.ligne div:odd').each(function (indice, element) {
-                $(element).css('background-color', 'blue');
-            });
+                $('.ligne div').attr('valeur', 'a');
+                $('.ligne div').html(' ');
+                
+                initJoueurs('joueur O', 'joueur X');
+            }
 
             $('.ligne div').click(function (e) {
-                console.log('TOUR =' + tour);
-                clique(e);
+                var carre = $(e.target);
+                
+                clique(carre);
+                
+                checkEtatJeu(carre);
+                
                 if ($(e.target).css('background-color') === 'rgb(255, 0, 0)') {
                     $(e.target).css('background-color', 'yellow');
                 } else
@@ -118,12 +133,28 @@ and open the template in the editor.
                     $(e.target).css('background-color', 'red');
                 }
             });
+            
+            function checkEtatJeu(carre) {
+                if (calcul(carre.attr('valeur'))) {
+                    var choix = confirm('WINNER IS ' + carre.attr('valeur') + ' !\nVoulez-vous rejouer ?');
+                    if (choix) {
+                        init();
+                    } else {
+                        return;
+                    }
+                } else {
+                    if (carre.attr('valeur') === 'X') {
+                        $('p:first').addClass('aLaMain');
+                        $('p:last').removeClass('aLaMain');
+                    } else {
+                        $('p:last').addClass('aLaMain');
+                        $('p:first').removeClass('aLaMain');
+                    }
+                }
+            }
 
-            var tour = 0;
-
-            function clique(e) {
-                var carre = $(e.target);
-                var valeur = '';
+            function clique(carre) {
+                //var carre = $(e.target);
 
                 while (carre.attr('valeur') === 'a') {
                     if ((tour % 2) === 0) {
@@ -134,19 +165,6 @@ and open the template in the editor.
                         tour++;
                         carre.attr('valeur', 'X');
                         carre.html(carre.attr('valeur'));
-                    }
-                }
-
-                if (calcul(carre.attr('valeur'))) {
-                    alert('WINNER IS ' + carre.attr('valeur') + ' !');
-                    return;
-                } else {
-                    if (carre.attr('valeur') === 'X') {
-                        $('p:first').addClass('aLaMain');
-                        $('p:last').removeClass('aLaMain');
-                    } else {
-                        $('p:last').addClass('aLaMain');
-                        $('p:first').removeClass('aLaMain');
                     }
                 }
             }
@@ -162,8 +180,6 @@ and open the template in the editor.
                 }
                 return false;
             }
-
         </script>
-
     </body>
 </html>
